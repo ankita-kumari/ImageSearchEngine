@@ -36,7 +36,7 @@ for url in urls:
 	'tags' : tags
 	}
 
-	res = es.index(index="test-index", doc_type='images', id=i, body=doc)
+	res = es.index(index="test-index", doc_type='images', body=doc)
 	print(res['created'])
 	i+=1
 
