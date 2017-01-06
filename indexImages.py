@@ -19,8 +19,13 @@ with open(file_path, "r") as f:
 
 i = 1
 for url in urls:
-	# predict with the model
-	prediction = model.predict_by_url(url)
+	try:
+		# predict with the model
+		prediction = model.predict_by_url(url)
+	except Exception:
+		print "Error predicting for url : " + url
+	else:
+		print "Successfully fetched tags for url : " + url
 
 	tags = []
 	for p in prediction['outputs'][0]['data']['concepts']:
