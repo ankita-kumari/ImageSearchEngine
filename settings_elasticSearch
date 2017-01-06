@@ -1,0 +1,65 @@
+curl -X PUT "http://localhost:9200/test-index/_settings" -d '{
+    "analysis": {
+      "char_filter": {
+        "replace-&": {
+          "type": "mapping",
+          "mappings": [
+            "&=> and "
+          ]
+        }
+      },
+      "tokenizer": "standard",
+      "filter": {
+        "custom-stopwords": {
+          "type": "stop",
+          "stopwords": [
+            "the",
+            "an",
+            "a",
+            "is",
+            "to"
+          ]
+        }
+      },
+      "analyzer": {
+        "first-custom-analyzer": {
+          "type": "custom",
+          "char_filter": [
+            "replace-&"
+          ],
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "snowball",
+            "custom-stopwords"
+          ]
+        }
+      }
+    }
+}'
+
+
+{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "my_synonym_filter": {
+          "type": "synonym",
+          "synonyms": [
+            "british,english",
+            "queen,monarch"
+          ]
+        }
+      },
+      "analyzer": {
+        "my_synonyms": {
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "my_synonym_filter"
+          ]
+        }
+      }
+    }
+  }
+}
